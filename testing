@@ -1,0 +1,88 @@
+-- Create GUI
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "LimitHubLoader"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.IgnoreGuiInset = true
+ScreenGui.Parent = game:GetService("CoreGui")
+
+-- Colorful Background
+local bg = Instance.new("Frame")
+bg.Size = UDim2.new(1, 0, 1, 0)
+bg.BackgroundColor3 = Color3.fromRGB(90, 155, 255)
+bg.BorderSizePixel = 0
+bg.Parent = ScreenGui
+
+-- Rainbow effect
+task.spawn(function()
+    local hue = 0
+    while bg and bg.Parent do
+        hue = (hue + 1) % 255
+        bg.BackgroundColor3 = Color3.fromHSV(hue/255, 0.8, 1)
+        task.wait(0.05)
+    end
+end)
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0.2, 0)
+title.Position = UDim2.new(0, 0, 0.1, 0)
+title.BackgroundTransparency = 1
+title.Text = "Limit Hub - Pet Spawner and Moon Cat Freeze"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.GothamBlack
+title.TextScaled = true
+title.Parent = bg
+
+-- Loading Text with animated dots
+local loadingText = Instance.new("TextLabel")
+loadingText.Size = UDim2.new(1, 0, 0.1, 0)
+loadingText.Position = UDim2.new(0, 0, 0.3, 0)
+loadingText.BackgroundTransparency = 1
+loadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
+loadingText.Font = Enum.Font.GothamBold
+loadingText.TextScaled = true
+loadingText.Text = "Loading"
+loadingText.Parent = bg
+
+-- Animate dots
+task.spawn(function()
+    local dots = 0
+    while loadingText and loadingText.Parent do
+        loadingText.Text = "Loading" .. string.rep(".", dots)
+        dots = (dots + 1) % 4
+        wait(0.5)
+    end
+end)
+
+-- Loading Bar Background
+local barBg = Instance.new("Frame")
+barBg.Size = UDim2.new(0.6, 0, 0.05, 0)
+barBg.Position = UDim2.new(0.2, 0, 0.5, 0)
+barBg.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+barBg.BorderSizePixel = 0
+barBg.Parent = bg
+
+-- Loading Bar Fill
+local barFill = Instance.new("Frame")
+barFill.Size = UDim2.new(0, 0, 1, 0)
+barFill.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+barFill.BorderSizePixel = 0
+barFill.Parent = barBg
+
+-- Animate bar for 3 minutes (180s)
+local duration = 180
+local start = tick()
+
+task.spawn(function()
+    while tick() - start < duration do
+        local progress = (tick() - start) / duration
+        barFill.Size = UDim2.new(progress, 0, 1, 0)
+        wait(0.1)
+    end
+
+    -- Done loading - remove GUI
+    ScreenGui:Destroy()
+
+    -- ✅ Insert your script to run after loading here:
+    -- loadstring(game:HttpGet(('https://raw.githubusercontent.com/FakeModz/LimitHub/refs/heads/main/LimitHub_Luarmor_E.lua')))()
+end)
