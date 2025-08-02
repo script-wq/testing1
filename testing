@@ -5,46 +5,49 @@ ScreenGui.ResetOnSpawn = false
 ScreenGui.IgnoreGuiInset = true
 ScreenGui.Parent = game:GetService("CoreGui")
 
--- Colorful Background
-local bg = Instance.new("Frame")
-bg.Size = UDim2.new(1, 0, 1, 0)
-bg.BackgroundColor3 = Color3.fromRGB(90, 155, 255)
-bg.BorderSizePixel = 0
-bg.Parent = ScreenGui
+-- Main Container
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 500, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -125)
+mainFrame.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+mainFrame.BorderSizePixel = 0
+mainFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+mainFrame.Parent = ScreenGui
 
--- Rainbow effect
+-- Rainbow Border Effect
 task.spawn(function()
     local hue = 0
-    while bg and bg.Parent do
+    while mainFrame and mainFrame.Parent do
         hue = (hue + 1) % 255
-        bg.BackgroundColor3 = Color3.fromHSV(hue/255, 0.8, 1)
+        mainFrame.BorderColor3 = Color3.fromHSV(hue/255, 1, 1)
+        mainFrame.BorderSizePixel = 4
         task.wait(0.05)
     end
 end)
 
--- Title
+-- Title Text
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1, 0, 0.2, 0)
-title.Position = UDim2.new(0, 0, 0.1, 0)
+title.Size = UDim2.new(1, 0, 0.3, 0)
+title.Position = UDim2.new(0, 0, 0, 0)
 title.BackgroundTransparency = 1
 title.Text = "Limit Hub - Pet Spawner and Moon Cat Freeze"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.GothamBlack
 title.TextScaled = true
-title.Parent = bg
+title.Parent = mainFrame
 
--- Loading Text with animated dots
+-- Loading Text
 local loadingText = Instance.new("TextLabel")
-loadingText.Size = UDim2.new(1, 0, 0.1, 0)
+loadingText.Size = UDim2.new(1, 0, 0.2, 0)
 loadingText.Position = UDim2.new(0, 0, 0.3, 0)
 loadingText.BackgroundTransparency = 1
 loadingText.TextColor3 = Color3.fromRGB(255, 255, 255)
 loadingText.Font = Enum.Font.GothamBold
 loadingText.TextScaled = true
 loadingText.Text = "Loading"
-loadingText.Parent = bg
+loadingText.Parent = mainFrame
 
--- Animate dots
+-- Animate Dots
 task.spawn(function()
     local dots = 0
     while loadingText and loadingText.Parent do
@@ -56,20 +59,20 @@ end)
 
 -- Loading Bar Background
 local barBg = Instance.new("Frame")
-barBg.Size = UDim2.new(0.6, 0, 0.05, 0)
-barBg.Position = UDim2.new(0.2, 0, 0.5, 0)
+barBg.Size = UDim2.new(0.8, 0, 0.1, 0)
+barBg.Position = UDim2.new(0.1, 0, 0.6, 0)
 barBg.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
 barBg.BorderSizePixel = 0
-barBg.Parent = bg
+barBg.Parent = mainFrame
 
 -- Loading Bar Fill
 local barFill = Instance.new("Frame")
 barFill.Size = UDim2.new(0, 0, 1, 0)
-barFill.BackgroundColor3 = Color3.fromRGB(100, 255, 100)
+barFill.BackgroundColor3 = Color3.fromRGB(0, 255, 120)
 barFill.BorderSizePixel = 0
 barFill.Parent = barBg
 
--- Animate bar for 3 minutes (180s)
+-- Animate loading over 3 minutes
 local duration = 180
 local start = tick()
 
@@ -83,6 +86,6 @@ task.spawn(function()
     -- Done loading - remove GUI
     ScreenGui:Destroy()
 
-    -- ✅ Insert your script to run after loading here:
+    -- ✅ Put your actual script here
     -- loadstring(game:HttpGet(('https://raw.githubusercontent.com/FakeModz/LimitHub/refs/heads/main/LimitHub_Luarmor_E.lua')))()
 end)
